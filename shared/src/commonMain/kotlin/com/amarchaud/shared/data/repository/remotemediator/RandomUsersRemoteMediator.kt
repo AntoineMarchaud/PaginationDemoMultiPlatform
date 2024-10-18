@@ -4,12 +4,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.amarchaud.database.UsersEntity
 import com.amarchaud.shared.data.db.PaginationDemoDao
 import com.amarchaud.shared.data.mappers.toDomain
 import com.amarchaud.shared.data.mappers.toEntity
 import com.amarchaud.shared.data.models.ErrorApiDataModel
 import com.amarchaud.shared.data.models.PageEntityModel
+import com.amarchaud.shared.data.models.UserEntityModel
 import com.amarchaud.shared.domain.models.ErrorApiModel
 import kotlinx.coroutines.delay
 import kotlin.coroutines.cancellation.CancellationException
@@ -18,7 +18,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class RandomUsersRemoteMediator(
     private val paginationDemoDao: PaginationDemoDao,
     private val paginationDemoApi: com.amarchaud.shared.data.api.PaginationDemoApi
-) : RemoteMediator<Int, UsersEntity>() {
+) : RemoteMediator<Int, UserEntityModel>() {
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -26,7 +26,7 @@ class RandomUsersRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, UsersEntity>
+        state: PagingState<Int, UserEntityModel>
     ): MediatorResult {
 
         val page = when (loadType) {
