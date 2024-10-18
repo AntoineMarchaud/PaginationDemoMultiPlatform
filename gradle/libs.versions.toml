@@ -8,6 +8,8 @@ android-targetSdk = "36"
 kotlin_version = "2.1.21"
 android_gradle_plugin = "8.7.3"
 kotlinxDatetime_version = "0.6.1"
+kotlinxSerializationJson_version = "1.7.3"
+ksp-plugin = "2.0.21-1.0.25"
 
 #Koin
 koin_version = "4.0.4"
@@ -19,9 +21,10 @@ navigationCompose = "2.9.0-beta01"
 appcash_paging="3.3.0-alpha02-0.5.1"
 
 # Others
+room_version = "2.7.1"
+sqlite_version = "2.5.0"
 coil = "3.2.0"
 ktor_version = "3.1.3"
-sqldelight_version = "2.1.0"
 statelyCommon = "2.0.6"
 
 [plugins]
@@ -38,7 +41,7 @@ org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kot
 org-jetbrains-kotlin-serializable = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin_version" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin_version" }
 
-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight_version" }
+room-plugin = { id = "androidx.room", version.ref = "room_version" }
 
 [libraries]
 
@@ -70,11 +73,6 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 stately-iso-collection = { module = "co.touchlab:stately-iso-collections", version.ref = "statelyCommon" }
 stately-isolate = { module = "co.touchlab:stately-isolate", version.ref = "statelyCommon" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
-
-sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight_version" }
-sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight_version" }
-sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight_version" }
-sqldelight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqldelight_version" }
 
 coil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
