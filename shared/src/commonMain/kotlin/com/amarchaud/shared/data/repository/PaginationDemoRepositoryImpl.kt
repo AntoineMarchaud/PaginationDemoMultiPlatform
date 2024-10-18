@@ -5,11 +5,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.amarchaud.shared.domain.models.UserModel
-import com.amarchaud.shared.domain.repository.PaginationDemoRepository
 import com.amarchaud.shared.data.db.PaginationDemoDao
 import com.amarchaud.shared.data.mappers.toDomain
 import com.amarchaud.shared.data.repository.remotemediator.RandomUsersRemoteMediator
+import com.amarchaud.shared.domain.models.UserModel
+import com.amarchaud.shared.domain.repository.PaginationDemoRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

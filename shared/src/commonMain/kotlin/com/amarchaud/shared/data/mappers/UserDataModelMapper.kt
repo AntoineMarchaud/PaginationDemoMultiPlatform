@@ -1,17 +1,26 @@
 package com.amarchaud.shared.data.mappers
 
-import com.amarchaud.database.UsersEntity
 import com.amarchaud.shared.data.models.CoordinatesDataModel
+import com.amarchaud.shared.data.models.CoordinatesEntityModel
 import com.amarchaud.shared.data.models.DobDataModel
+import com.amarchaud.shared.data.models.DobEntityModel
 import com.amarchaud.shared.data.models.IdDataModel
+import com.amarchaud.shared.data.models.IdEntityModel
 import com.amarchaud.shared.data.models.LocationDataModel
+import com.amarchaud.shared.data.models.LocationEntityModel
 import com.amarchaud.shared.data.models.LoginDataModel
 import com.amarchaud.shared.data.models.NameDataModel
+import com.amarchaud.shared.data.models.NameEntityModel
 import com.amarchaud.shared.data.models.PictureDataModel
+import com.amarchaud.shared.data.models.PictureEntityModel
 import com.amarchaud.shared.data.models.RegisteredDataModel
+import com.amarchaud.shared.data.models.RegisteredEntityModel
 import com.amarchaud.shared.data.models.StreetDataModel
+import com.amarchaud.shared.data.models.StreetEntityModel
 import com.amarchaud.shared.data.models.TimezoneDataModel
+import com.amarchaud.shared.data.models.TimezoneEntityModel
 import com.amarchaud.shared.data.models.UserDataModel
+import com.amarchaud.shared.data.models.UserEntityModel
 import com.amarchaud.shared.domain.models.CoordinatesModel
 import com.amarchaud.shared.domain.models.DobModel
 import com.amarchaud.shared.domain.models.IdModel
@@ -23,6 +32,11 @@ import com.amarchaud.shared.domain.models.RegisteredModel
 import com.amarchaud.shared.domain.models.StreetModel
 import com.amarchaud.shared.domain.models.TimezoneModel
 import com.amarchaud.shared.domain.models.UserModel
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 // DataModel to domain
 
@@ -53,7 +67,12 @@ internal fun LocationDataModel.toDomain() = LocationModel(
     city = this.city,
     state = this.state,
     country = this.country,
-    postcode = this.postcode.toString(),
+    /*
+    postcode = when(this.postcode) {
+        is Int -> this.postcode.toString()
+        is String -> this.postcode
+        else -> throw Exception("impossible")
+    },*/
     coordinates = this.coordinates?.toDomain(),
     timezone = this.timezone?.toDomain(),
 )
@@ -84,12 +103,12 @@ internal fun LoginDataModel.toDomain() = LoginModel(
 )
 
 internal fun DobDataModel.toDomain() = DobModel(
-    date = this.date,
+    date = this.date?.toString(),
     age = this.age,
 )
 
 internal fun RegisteredDataModel.toDomain() = RegisteredModel(
-    date = this.date,
+    date = this.date?.toString(),
     age = this.age,
 )
 
@@ -104,33 +123,86 @@ internal fun PictureDataModel.toDomain() = PictureModel(
     thumbnail = this.thumbnail,
 )
 
-// DataModel (api) to EntityModel
 
-internal fun UserDataModel.toEntity() = UsersEntity(
+// DataModel to EntityModel
+
+internal fun UserDataModel.toEntity() = UserEntityModel(
     gender = this.gender,
-    name_title = this.name?.title,
-    name_first = this.name?.first,
-    name_last = this.name?.last,
-    location_street_name = this.location?.street?.name,
-    location_street_number = this.location?.street?.number,
-    location_city = this.location?.city,
-    location_state = this.location?.state,
-    location_country = this.location?.country,
-    location_postcode = this.location?.postcode.toString(),
-    location_coordinates_longitude = this.location?.coordinates?.longitude,
-    location_coordinates_latitude = this.location?.coordinates?.latitude,
-    location_timezone_offset = this.location?.timezone?.offset,
-    location_timezone_description = this.location?.timezone?.description,
+    name = this.name?.toEntity(),
+    location = this.location?.toEntity(),
     email = this.email.orEmpty(),
-    dob_date = this.dob?.date,
-    dob_age = this.dob?.age,
-    registered_age = this.registered?.age,
-    registered_date = this.registered?.date,
-    id_value = this.id?.value,
-    id_name = this.id?.name,
-    picture_thumbnail = this.picture?.thumbnail,
-    picture_medium = this.picture?.medium,
-    picture_large = this.picture?.large,
+    dob = this.dob?.toEntity(),
+    registered = this.registered?.toEntity(),
+    phone = this.phone,
+    cell = this.cell,
+    id = this.id?.toEntity(),
+    picture = this.picture?.toEntity(),
     nat = this.nat,
-    _id = 0
 )
+
+internal fun NameDataModel.toEntity() = NameEntityModel(
+    title = this.title,
+    first = this.first,
+    last = this.last
+)
+
+internal fun LocationDataModel.toEntity() = LocationEntityModel(
+    street = this.street?.toEntity(),
+    city = this.city,
+    state = this.state,
+    country = this.country,
+    /*
+    postcode = when(this.postcode) {
+        is Int -> this.postcode.toString()
+        is String -> this.postcode
+        else -> throw Exception("impossible")
+    },*/
+    coordinates = this.coordinates?.toEntity(),
+    timezone = this.timezone?.toEntity(),
+)
+
+internal fun StreetDataModel.toEntity() = StreetEntityModel(
+    number = this.number,
+    name = this.name,
+)
+
+internal fun CoordinatesDataModel.toEntity() = CoordinatesEntityModel(
+    latitude = this.latitude,
+    longitude = this.longitude,
+)
+
+internal fun TimezoneDataModel.toEntity() = TimezoneEntityModel(
+    offset = this.offset,
+    description = this.description,
+)
+
+
+internal fun DobDataModel.toEntity() = DobEntityModel(
+    date = this.date?.toLocalDate(), // todo
+    age = this.age,
+)
+
+internal fun RegisteredDataModel.toEntity() = RegisteredEntityModel(
+    date = this.date?.toLocalDate(), // todo
+    age = this.age,
+)
+
+internal fun IdDataModel.toEntity() = IdEntityModel(
+    name = this.name,
+    value = this.value
+)
+
+internal fun PictureDataModel.toEntity() = PictureEntityModel(
+    large = this.large,
+    medium = this.medium,
+    thumbnail = this.thumbnail,
+)
+
+private fun String.toLocalDate(): LocalDateTime {
+    // Convertir une chaîne ISO 8601 avec "Z" en LocalDateTime
+    return try {
+        Instant.parse(this).toLocalDateTime(TimeZone.UTC)
+    } catch (e: Exception) {
+        Clock.System.now().toLocalDateTime(TimeZone.UTC)
+    }
+}

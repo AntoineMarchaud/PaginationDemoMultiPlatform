@@ -4,7 +4,8 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.org.jetbrains.kotlin.serializable)
-    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.room.plugin)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 kotlin {
@@ -18,6 +19,9 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+
+            // Required when using NativeSQLiteDriver
+            linkerOpts.add("-lsqlite3")
         }
     }
 
@@ -25,7 +29,6 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
-            implementation(libs.sqldelight.android.driver)
 
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
@@ -38,6 +41,10 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.ktx)
             //implementation(libs.lifecycle.viewmodel.savedstate.android) // alpha
 
+            implementation(libs.roomPaging)
+            implementation(libs.roomktx)
+            implementation(libs.roomRuntime.android)
+            implementation(libs.coroutine)
         }
 
         iosMain.dependencies {
@@ -45,7 +52,6 @@ kotlin {
             implementation(libs.stately.common)
             implementation(libs.stately.isolate)
             implementation(libs.stately.iso.collection)
-            implementation(libs.sqldelight.native.driver)
         }
 
         val commonMain by getting {
@@ -57,8 +63,6 @@ kotlin {
                 implementation(libs.ktor.core)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content)
-                implementation(libs.sqldelight.paging)
-                implementation(libs.sqldelight.runtime)
                 implementation(libs.coil)
                 implementation(libs.coil.network.ktor)
 
@@ -72,15 +76,31 @@ kotlin {
 
                 implementation(libs.paging.common)
                 implementation(libs.paging.compose.common)
+
                 implementation(libs.lifecycle.common)
                 implementation(libs.lifecycle.runtime)
                 implementation(libs.lifecycle.viewmodel)
                 implementation(libs.lifecycle.viewmodel.savedstate)
 
                 implementation(libs.kotlinx.datetime)
+
+                // bdd
+                implementation(libs.sqliteBundled)
+                implementation(libs.roomRuntime)
+
+                implementation(libs.kotlinx.datetime)
+
+                implementation(libs.coroutine.core)
             }
         }
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.roomCompiler)
+    add("kspIosSimulatorArm64", libs.roomCompiler)
+    add("kspIosArm64", libs.roomCompiler)
+    add("kspIosX64", libs.roomCompiler)
 }
 
 android {
@@ -99,11 +119,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-
-sqldelight {
-    databases {
-        register("PaginationDemoDatabase") { // The name of the database
-            packageName.set("com.amarchaud.database") // Package name used for the database class.
-        }
-    }
+room {
+    schemaDirectory("$projectDir/schemas")
 }
