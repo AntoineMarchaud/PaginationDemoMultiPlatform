@@ -36,28 +36,27 @@ kotlin {
             implementation(libs.stately.iso.collection)
         }
 
-        commonMain.dependencies {
-            implementation(project(":domain"))
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.koin.compose.viewmodel.navigation)
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":domain"))
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
+                implementation(libs.koin.compose.viewmodel.navigation)
 
-            implementation(libs.coil)
-            implementation(libs.coil.network.ktor)
+                implementation(libs.coil)
+                implementation(libs.coil.network.ktor)
 
-            // common google
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+                // common google
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.paging.common)
-            implementation(libs.paging.compose.common)
-
-            implementation(libs.kotlinx.datetime)
+                implementation(libs.kotlinx.datetime)
+            }
         }
     }
 }
