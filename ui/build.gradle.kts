@@ -26,14 +26,8 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
 
-            // common google
-            implementation(compose.preview)
             implementation(libs.activity.compose)
-           // implementation(libs.paging.common.android)
-           // implementation(libs.paging.compose)
-            implementation(libs.lifecycle.viewmodel.ktx)
-            //implementation(libs.lifecycle.viewmodel.savedstate.android) // alpha
-
+            implementation(compose.preview)
         }
 
         iosMain.dependencies {
@@ -63,10 +57,6 @@ kotlin {
 
                 implementation(libs.paging.common)
                 implementation(libs.paging.compose.common)
-                implementation(libs.lifecycle.common)
-                implementation(libs.lifecycle.runtime)
-                implementation(libs.lifecycle.viewmodel)
-                implementation(libs.lifecycle.viewmodel.savedstate)
 
                 implementation(libs.kotlinx.datetime)
             }
