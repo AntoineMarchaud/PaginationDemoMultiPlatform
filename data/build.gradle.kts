@@ -51,7 +51,7 @@ kotlin {
                 implementation(libs.coil.network.ktor)
 
                 implementation(libs.paging.common)
-                implementation(libs.paging.compose.common)
+                // implementation(libs.paging.compose.common)
 
                 implementation(libs.kotlinx.datetime)
 

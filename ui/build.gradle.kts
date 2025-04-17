@@ -55,9 +55,6 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
 
-                implementation(libs.paging.common)
-                implementation(libs.paging.compose.common)
-
                 implementation(libs.kotlinx.datetime)
             }
         }

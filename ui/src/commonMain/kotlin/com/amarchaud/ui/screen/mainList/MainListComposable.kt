@@ -39,8 +39,6 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
 import com.amarchaud.domain.models.ErrorApiModel
 import com.amarchaud.ui.screen.mainList.composables.ErrorComposable
 import com.amarchaud.ui.screen.mainList.composables.OneUser
