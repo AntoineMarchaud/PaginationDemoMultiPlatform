@@ -8,8 +8,7 @@ android-targetSdk = "35"
 kotlin_version = "2.1.20"
 android_gradle_plugin = "8.7.3"
 kotlinxDatetime_version = "0.6.1"
-kotlinxSerializationJson_version = "1.7.3"
-ksp-plugin = "2.0.21-1.0.25"
+ksp-plugin = "2.1.20-2.0.0"
 
 #Koin
 koin_version = "4.0.4"
@@ -18,17 +17,17 @@ koin_version = "4.0.4"
 activity_compose = "1.10.1"
 compose_multiplatform_plugin_version = "1.8.0"
 navigationCompose = "2.9.0-beta01"
-appcash_paging="3.3.0-alpha02-0.5.1"
 
 # Others
-room_version = "2.7.0"
+room_version = "2.7.1"
 sqlite_version = "2.5.0"
 coil = "3.1.0"
 ktor_version = "3.1.1"
-sqldelight_version = "2.0.2"
 statelyCommon = "2.0.6"
+paging_version = "3.3.6"
 
 [plugins]
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-plugin" }
 
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose_multiplatform_plugin_version" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin_version" }
@@ -59,10 +58,8 @@ navigation-compose-multipatform = { module = "org.jetbrains.androidx.navigation:
 # compose android
 activity_compose = { module = "androidx.activity:activity-compose", version.ref = "activity_compose" }
 
+paging-common = { module = "androidx.paging:paging-runtime", version.ref = "paging_version" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime_version" }
-
-paging-common = { module = "app.cash.paging:paging-common", version.ref = "appcash_paging" }
-paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "appcash_paging" }
 
 ktor_core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
 ktor_client_android = { module = "io.ktor:ktor-client-android", version.ref = "ktor_version" }
@@ -75,5 +72,14 @@ stately-iso-collection = { module = "co.touchlab:stately-iso-collections", versi
 stately-isolate = { module = "co.touchlab:stately-isolate", version.ref = "statelyCommon" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
 
+sqliteBundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite_version" }
+roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room_version" }
+roomRuntime-android = { module = "androidx.room:room-runtime-android", version.ref = "room_version" }
+roomPaging = { module = "androidx.room:room-paging", version.ref = "room_version" }
+roomktx = { module = "androidx.room:room-ktx", version.ref = "room_version" }
+
 coil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+
+# for KSP
+roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room_version" }
