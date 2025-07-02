@@ -21,26 +21,24 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
+    ).forEach {
+        it.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
         }
     }
 
     sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.koin.android)
-                implementation(libs.koin.compose)
+        androidMain.dependencies {
+            implementation(libs.koin.android)
+            implementation(libs.koin.compose)
 
-                // common google
-                implementation(compose.preview)
-                implementation(libs.activity.compose)
-            }
+            // common google
+            implementation(compose.preview)
+            implementation(libs.activity.compose)
         }
 
-        val commonMain by getting {
+        commonMain.dependencies {
             dependencies {
                 implementation(project(":ui"))
                 implementation(project(":data"))
@@ -55,7 +53,6 @@ kotlin {
                 implementation(libs.sqldelight.paging)
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.coil)
-
 
                 // common google
                 implementation(libs.navigation.compose.multipatform)
