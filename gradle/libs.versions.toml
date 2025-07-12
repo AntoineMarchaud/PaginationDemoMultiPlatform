@@ -59,6 +59,8 @@ navigation-compose-multipatform = { module = "org.jetbrains.androidx.navigation:
 activity_compose = { module = "androidx.activity:activity-compose", version.ref = "activity_compose_version" }
 
 paging-common = { module = "androidx.paging:paging-common", version.ref = "paging_version" }
+paging-compose-common = { module = "androidx.paging:paging-compose", version.ref = "paging_version" }
+
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime_version" }
 
 ktor_core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
