@@ -1,32 +1,32 @@
 [versions]
 
-android-compileSdk = "36"
+android-compileSdk = "37"
 android-minSdk = "29"
 android-targetSdk = "36"
 
 # Plugins
-kotlin_version = "2.3.0"
-android_gradle_plugin_version = "9.0.0"
-kotlinxDatetime_version = "0.7.1"
-ksp-plugin = "2.3.4"
+kotlin_version = "2.3.21"
+android_gradle_plugin_version = "9.2.1"
+kotlinxDatetime_version = "0.8.0"
+ksp-plugin = "2.3.7"
 
 #Koin
-koin_version = "4.1.1"
+koin_version = "4.2.1"
 
 # Compose
-activity_compose_version = "1.12.2"
-compose_multiplatform_plugin_version = "1.10.0"
-navigationCompose_version = "2.9.1"
+activity_compose_version = "1.13.0"
+compose_multiplatform_plugin_version = "1.10.3"
+navigationCompose_version = "2.9.2"
 material3Android = "1.9.0"
 compose-material-icons = "1.7.3"
 
 # Others
 room_version = "2.8.4"
 sqlite_version = "2.6.2"
-coil_version = "3.3.0"
-ktor_version = "3.4.0"
+coil_version = "3.4.0"
+ktor_version = "3.4.3"
 statelyCommon = "2.1.0"
-paging_version = "3.4.0-rc01"
+paging_version = "3.5.0"
 
 [plugins]
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-plugin" }
