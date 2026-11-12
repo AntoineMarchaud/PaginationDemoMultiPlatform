@@ -1,0 +1,8 @@
+TEAM_ID=
+
+PRODUCT_NAME=paginationdemokmm
+APP_DISPLAY_NAME=Pagination by AMA
+PRODUCT_BUNDLE_IDENTIFIER=com.jetbrains.multiplateform.paginationdemokmm.paginationdemokmm$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0

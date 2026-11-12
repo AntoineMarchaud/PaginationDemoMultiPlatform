@@ -5,7 +5,7 @@ plugins {
 
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
     jvm()
 
     listOf(
@@ -15,14 +15,19 @@ kotlin {
         it.binaries.framework {
             baseName = "domain"
             isStatic = true
+            binaryOption("bundleId", "com.amarchaud.domain")
         }
     }
 
     sourceSets {
         commonMain.dependencies {
             implementation(libs.paging.common)
-            // Test
-            // testImplementation(libs.bundles.test)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.paging.testing)
         }
     }
 }

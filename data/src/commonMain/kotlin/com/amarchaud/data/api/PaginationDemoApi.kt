@@ -20,11 +20,11 @@ class PaginationDemoApiKtorImpl(private val client: HttpClient) : PaginationDemo
         seed: String,
         results: Int,
         page: Int
-    ): Result<ResultsDataModel> = runCatching {
+    ): Result<ResultsDataModel> = runCatching<ResultsDataModel> {
         client.get("/api/1.3/") {
             parameter("seed", seed)
             parameter("results", results)
             parameter("page", page)
         }.body()
-    }
+    }.recoverCatching { throw it.toErrorApiDataModel() }
 }

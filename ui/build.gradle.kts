@@ -21,6 +21,8 @@ kotlin {
         androidResources {
             enable = true
         }
+
+        withHostTest {}
     }
 
     listOf(
@@ -30,29 +32,17 @@ kotlin {
         it.binaries.framework {
             baseName = "ui"
             isStatic = true
+            binaryOption("bundleId", "com.amarchaud.ui")
         }
     }
 
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.koin.compose)
-            implementation(libs.activity.compose)
-        }
-
-        iosMain.dependencies {
-            implementation(libs.stately.common)
-            implementation(libs.stately.isolate)
-            implementation(libs.stately.iso.collection)
-        }
-
         commonMain.dependencies {
             implementation(project(":domain"))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            implementation(libs.koin.compose.viewmodel.navigation)
 
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
@@ -63,10 +53,17 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.resources)
             implementation(libs.compose.uiToolingPreview)
-            implementation(libs.compose.material.icons.extended)
+            implementation(libs.lifecycle.runtime.compose)
 
             implementation(libs.paging.compose)
             implementation(libs.kotlinx.datetime)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.turbine)
+            implementation(libs.paging.testing)
         }
     }
 }

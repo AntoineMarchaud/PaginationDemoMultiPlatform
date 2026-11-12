@@ -26,6 +26,7 @@ kotlin {
         it.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            binaryOption("bundleId", "com.amarchaud.paginationdemokmm.ComposeApp")
         }
     }
 
@@ -37,11 +38,6 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            implementation(libs.koin.compose.viewmodel.navigation)
-            implementation(libs.ktor.core)
-            implementation(libs.ktor.client.serialization)
-            implementation(libs.ktor.client.content)
-            implementation(libs.coil)
 
             // common google
             implementation(libs.compose.foundation)

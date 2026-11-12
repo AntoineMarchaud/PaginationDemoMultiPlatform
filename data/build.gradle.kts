@@ -9,6 +9,11 @@ plugins {
 kotlin {
     jvmToolchain(21)
 
+    compilerOptions {
+        // Room KMP generates an `expect object` constructor for the database
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     android {
         namespace = "com.amarchaud.data"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -21,6 +26,8 @@ kotlin {
         androidResources {
             enable = true
         }
+
+        withHostTest {}
     }
 
     listOf(
@@ -30,6 +37,7 @@ kotlin {
         it.binaries.framework {
             baseName = "data"
             isStatic = true
+            binaryOption("bundleId", "com.amarchaud.data")
             // Required when using NativeSQLiteDriver
             linkerOpts.add("-lsqlite3")
         }
@@ -41,14 +49,10 @@ kotlin {
             implementation(libs.ktor.client.android)
 
             implementation(libs.koin.android)
-            implementation(libs.koin.compose)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            implementation(libs.stately.common)
-            implementation(libs.stately.isolate)
-            implementation(libs.stately.iso.collection)
         }
 
         commonMain.dependencies {
@@ -58,8 +62,6 @@ kotlin {
             implementation(libs.ktor.core)
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.content)
-            implementation(libs.coil)
-            implementation(libs.coil.network.ktor)
 
             implementation(libs.paging.common)
 
@@ -68,6 +70,13 @@ kotlin {
             implementation(libs.sqliteBundled)
             implementation(libs.roomRuntime)
             implementation(libs.roomPaging)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.ktor.client.mock)
+            implementation(libs.paging.testing)
         }
     }
 }

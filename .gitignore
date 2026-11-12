@@ -20,3 +20,6 @@ iosAppTest/*.xcworkspace/       # Workspaces Xcode (peuvent être générés aut
 iosAppTest/.DS_Store            # Fichiers macOS inutiles
 iosAppTest/.swiftpm/            # Cache Swift Package Manager (si utilisé)
 
+# Xcode : données utilisateur et caches
+**/xcuserdata/
+
