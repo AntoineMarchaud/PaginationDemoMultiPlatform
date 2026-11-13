@@ -1,0 +1,8 @@
+TEAM_ID=
+
+PRODUCT_NAME=paginationnative
+APP_DISPLAY_NAME=PaginationNative by AMA
+PRODUCT_BUNDLE_IDENTIFIER=com.amarchaud.paginationdemokmm.native$(TEAM_ID)
+
+CURRENT_PROJECT_VERSION=1
+MARKETING_VERSION=1.0

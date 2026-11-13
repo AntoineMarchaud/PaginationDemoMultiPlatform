@@ -11,6 +11,9 @@ internal fun UserModel.toDetailUiModel(): UserDetailUiModel {
     val longitude = this.location?.coordinates?.longitude?.toDoubleOrNull()
     val hasCoordinates = latitude != null && longitude != null
     val phoneDigits = this.phone.orEmpty().filter { it.isDigit() || it == '+' }
+    // randomuser.me coordinates, streets and states are random (a street of Lviv in the Kyiv region...):
+    // only the city and the country are real, anything else makes maps find nothing or the wrong city
+    val mapsQuery = joinNonBlank(", ", this.location?.city, this.location?.country)
 
     return UserDetailUiModel(
         mainInfo = this.toGenericUiModel(),
@@ -26,9 +29,24 @@ internal fun UserModel.toDetailUiModel(): UserDetailUiModel {
         birthday = this.dob?.date?.toUiDate().orEmpty(),
         emailUri = this.email?.takeIf { it.isNotBlank() }?.let { "mailto:$it" }.orEmpty(),
         phoneUri = if (phoneDigits.isNotEmpty()) "tel:$phoneDigits" else "",
-        mapsUri = if (hasCoordinates) "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude" else "",
+        mapsUri = if (mapsQuery.isNotEmpty()) "https://www.google.com/maps/search/?api=1&query=${mapsQuery.encodeUrlQuery()}" else "",
     )
 }
+
+/** Percent-encodes (UTF-8) everything but the URL unreserved characters: `A-Z a-z 0-9 - . _ ~`. */
+private fun String.encodeUrlQuery(): String = buildString {
+    encodeToByteArray().forEach { byte ->
+        val code = byte.toInt() and 0xFF
+        val char = code.toChar()
+        if (char in 'A'..'Z' || char in 'a'..'z' || char in '0'..'9' || char in "-._~") {
+            append(char)
+        } else {
+            append('%').append(HEX_DIGITS[code shr 4]).append(HEX_DIGITS[code and 0xF])
+        }
+    }
+}
+
+private const val HEX_DIGITS = "0123456789ABCDEF"
 
 /**
  * "1993-04-23T23:34:12.674" -> "April 23, 1993".

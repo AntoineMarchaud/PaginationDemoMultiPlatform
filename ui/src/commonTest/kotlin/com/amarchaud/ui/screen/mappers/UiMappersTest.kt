@@ -102,7 +102,35 @@ class UiMappersTest {
 
         assertEquals("mailto:jo@doe.fr", detail.emailUri)
         assertEquals("tel:01020304", detail.phoneUri)
-        assertEquals("https://www.google.com/maps/search/?api=1&query=48.85,2.35", detail.mapsUri)
+        // randomuser.me coordinates, streets and states are random: only the city and the country are real
+        assertEquals("https://www.google.com/maps/search/?api=1&query=Paris%2C%20France", detail.mapsUri)
+    }
+
+    @Test
+    fun mapsUriSearchesTheEncodedCityAndCountry() {
+        // street and state are random in randomuser.me: with them, maps find nothing or the wrong city
+        val swiss = user.copy(
+            location = LocationModel(
+                street = StreetModel(number = 8036, name = "Place de L'Église"),
+                city = "Neuchâtel",
+                state = "Schwyz",
+                country = "Switzerland",
+            )
+        )
+
+        assertEquals(
+            "https://www.google.com/maps/search/?api=1&query=Neuch%C3%A2tel%2C%20Switzerland",
+            swiss.toDetailUiModel().mapsUri,
+        )
+    }
+
+    @Test
+    fun mapsUriEmptyWithoutCityAndCountry() {
+        val streetOnly = user.copy(
+            location = LocationModel(street = StreetModel(number = 12, name = "Rue X"), state = "Schwyz")
+        )
+
+        assertEquals("", streetOnly.toDetailUiModel().mapsUri)
     }
 
     @Test
@@ -125,7 +153,7 @@ class UiMappersTest {
         val detail = invalid.toDetailUiModel()
 
         assertEquals(0.0 to 0.0, detail.coordinates)
-        assertEquals("", detail.mapsUri)
+        assertEquals(user.toDetailUiModel().mapsUri, detail.mapsUri)
     }
 
     @Test

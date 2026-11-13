@@ -1,4 +1,9 @@
+@file:OptIn(ExperimentalObjCName::class)
+
 package com.amarchaud.domain.models
+
+import kotlin.experimental.ExperimentalObjCName
+import kotlin.native.ObjCName
 
 data class UserModel(
     val localId: Long,
@@ -44,6 +49,8 @@ data class CoordinatesModel(
 
 data class TimezoneModel(
     val offset: String? = null,
+    // "description" clashes with NSObject.description in the Swift API
+    @property:ObjCName("timezoneDescription")
     val description: String? = null,
 )
 

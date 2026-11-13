@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
@@ -75,6 +78,9 @@ fun UserDetailComposable(
     )
 }
 
+/** Max width of the actions and sections on large screens. */
+private val MaxContentWidth = 640.dp
+
 @Composable
 private fun UserDetailScreen(
     user: UserDetailUiModel,
@@ -95,47 +101,55 @@ private fun UserDetailScreen(
         ) {
             ProfileHeader(user = user, scrollState = scrollState)
 
-            Spacer(Modifier.height(spacing.xl))
-            QuickActions(user = user, onAction = onAction)
+            // tablets, foldables, landscape: readable width, centered under the full-width header
+            Column(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .widthIn(max = MaxContentWidth)
+                    .fillMaxWidth()
+            ) {
+                Spacer(Modifier.height(spacing.xl))
+                QuickActions(user = user, onAction = onAction)
 
-            Spacer(Modifier.height(spacing.xl))
-            InfoSection(
-                modifier = Modifier.padding(horizontal = spacing.l),
-                title = stringResource(Res.string.section_contact),
-                items = listOf(
-                    InfoItem(
-                        icon = Res.drawable.ic_mail,
-                        label = stringResource(Res.string.label_email),
-                        value = user.mainInfo.email,
-                        onClick = { onAction(UserDetailAction.EmailClicked) },
+                Spacer(Modifier.height(spacing.xl))
+                InfoSection(
+                    modifier = Modifier.padding(horizontal = spacing.l),
+                    title = stringResource(Res.string.section_contact),
+                    items = listOf(
+                        InfoItem(
+                            icon = Res.drawable.ic_mail,
+                            label = stringResource(Res.string.label_email),
+                            value = user.mainInfo.email,
+                            onClick = { onAction(UserDetailAction.EmailClicked) },
+                        ),
+                        InfoItem(
+                            icon = Res.drawable.ic_phone,
+                            label = stringResource(Res.string.label_phone),
+                            value = user.phoneNumber,
+                            onClick = { onAction(UserDetailAction.PhoneClicked) },
+                        ),
                     ),
-                    InfoItem(
-                        icon = Res.drawable.ic_phone,
-                        label = stringResource(Res.string.label_phone),
-                        value = user.phoneNumber,
-                        onClick = { onAction(UserDetailAction.PhoneClicked) },
-                    ),
-                ),
-            )
+                )
 
-            Spacer(Modifier.height(spacing.xl))
-            InfoSection(
-                modifier = Modifier.padding(horizontal = spacing.l),
-                title = stringResource(Res.string.section_about),
-                items = listOf(
-                    InfoItem(
-                        icon = Res.drawable.ic_place,
-                        label = stringResource(Res.string.label_address),
-                        value = user.address,
-                        onClick = { onAction(UserDetailAction.AddressClicked) },
+                Spacer(Modifier.height(spacing.xl))
+                InfoSection(
+                    modifier = Modifier.padding(horizontal = spacing.l),
+                    title = stringResource(Res.string.section_about),
+                    items = listOf(
+                        InfoItem(
+                            icon = Res.drawable.ic_place,
+                            label = stringResource(Res.string.label_address),
+                            value = user.address,
+                            onClick = { onAction(UserDetailAction.AddressClicked) },
+                        ),
+                        InfoItem(
+                            icon = Res.drawable.ic_cake,
+                            label = stringResource(Res.string.label_birthday),
+                            value = user.birthday,
+                        ),
                     ),
-                    InfoItem(
-                        icon = Res.drawable.ic_cake,
-                        label = stringResource(Res.string.label_birthday),
-                        value = user.birthday,
-                    ),
-                ),
-            )
+                )
+            }
 
             Spacer(Modifier.height(spacing.xl))
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))

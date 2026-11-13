@@ -1,0 +1,30 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@, %lld" : {},
+    "%lld years old" : {},
+    "About" : {},
+    "Address" : {},
+    "Birthday" : {},
+    "Call" : {},
+    "Contact" : {},
+    "Couldn’t load more: %@" : {},
+    "Couldn’t load people" : {},
+    "Couldn’t refresh: %@" : {},
+    "Discover" : {},
+    "Email" : {},
+    "Map" : {},
+    "People from around the world" : {},
+    "Phone" : {},
+    "Photo of %@" : {},
+    "Retry" : {},
+    "Try again" : {},
+    "empty response from the server" : {},
+    "no internet connection" : {},
+    "server error" : {},
+    "server error (%d)" : {},
+    "something went wrong" : {},
+    "the server took too long to respond" : {}
+  },
+  "version" : "1.0"
+}

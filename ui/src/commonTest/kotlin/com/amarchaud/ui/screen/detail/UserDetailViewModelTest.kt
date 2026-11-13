@@ -106,7 +106,12 @@ class UserDetailViewModelTest {
     @Test
     fun addressClickOpensMaps() = runTest(dispatcher) {
         val located = user.copy(
-            location = LocationModel(coordinates = CoordinatesModel(latitude = "48.85", longitude = "2.35")),
+            // random randomuser.me coordinates are ignored: the address is searched
+            location = LocationModel(
+                city = "Paris",
+                country = "France",
+                coordinates = CoordinatesModel(latitude = "-80.09", longitude = "66.91"),
+            ),
         )
         val viewModel = viewModel(repository = FakePaginationDemoRepository(users = mapOf(42L to located)))
         advanceUntilIdle()
@@ -114,7 +119,7 @@ class UserDetailViewModelTest {
         viewModel.events.test {
             viewModel.onAction(UserDetailAction.AddressClicked)
             assertEquals(
-                UserDetailEvent.OpenUri("https://www.google.com/maps/search/?api=1&query=48.85,2.35"),
+                UserDetailEvent.OpenUri("https://www.google.com/maps/search/?api=1&query=Paris%2C%20France"),
                 awaitItem(),
             )
         }
