@@ -3,6 +3,8 @@ package com.amarchaud.data.di
 import com.amarchaud.domain.repository.PaginationDemoRepository
 import com.amarchaud.domain.usecase.GetOneUserUseCase
 import com.amarchaud.domain.usecase.GetRandomUsersUseCase
+import com.amarchaud.domain.usecase.ObserveMaterialYouUseCase
+import com.amarchaud.domain.usecase.SetMaterialYouUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -17,4 +19,8 @@ val useCaseModule = module {
             repository = get<PaginationDemoRepository>()
         )
     }
+
+    factory { ObserveMaterialYouUseCase(repository = get()) }
+
+    factory { SetMaterialYouUseCase(repository = get()) }
 }

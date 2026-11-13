@@ -52,14 +52,14 @@ internal fun InfoSection(
         Surface(
             shape = MaterialTheme.shapes.large,
             color = MaterialTheme.colorScheme.surface,
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         ) {
             Column {
                 visibleItems.forEachIndexed { index, item ->
                     if (index > 0) {
                         HorizontalDivider(
                             modifier = Modifier.padding(start = 72.dp),
-                            color = MaterialTheme.colorScheme.outline,
+                            color = MaterialTheme.colorScheme.outlineVariant,
                         )
                     }
                     InfoRow(item)

@@ -4,12 +4,13 @@ import com.amarchaud.data.di.daoCommonModule
 import com.amarchaud.data.di.daoModule
 import com.amarchaud.data.di.networkModule
 import com.amarchaud.data.di.repoModule
+import com.amarchaud.data.di.settingsModule
 import com.amarchaud.data.di.useCaseModule
 import com.amarchaud.ui.di.viewModelModule
 import org.koin.core.context.startKoin
 
 fun initKoin(){
     startKoin {
-        modules(networkModule, daoModule, daoCommonModule, repoModule, useCaseModule, viewModelModule)
+        modules(networkModule, daoModule, daoCommonModule, repoModule, useCaseModule, settingsModule, viewModelModule)
     }
 }

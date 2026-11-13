@@ -70,6 +70,8 @@ kotlin {
             implementation(libs.sqliteBundled)
             implementation(libs.roomRuntime)
             implementation(libs.roomPaging)
+
+            implementation(libs.datastore.preferences.core)
         }
 
         commonTest.dependencies {

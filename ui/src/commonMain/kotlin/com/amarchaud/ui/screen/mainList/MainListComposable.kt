@@ -45,7 +45,9 @@ import com.amarchaud.ui.screen.mainList.composables.UserCardPlaceholder
 import com.amarchaud.ui.screen.mainList.composables.previewUser
 import com.amarchaud.ui.screen.mainList.models.UserGenericUiModel
 import com.amarchaud.ui.screen.mappers.errorMessage
+import com.amarchaud.ui.settings.ThemeMenu
 import com.amarchaud.ui.theme.PaginationDemoTheme
+import com.amarchaud.ui.theme.isDynamicColorSupported
 import com.amarchaud.ui.theme.spacing
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
@@ -65,6 +67,8 @@ private const val PLACEHOLDER_COUNT = 8
 @Composable
 fun MainListComposable(
     viewModel: MainListViewModel = koinViewModel(),
+    materialYouEnabled: Boolean = false,
+    onMaterialYouToggled: (Boolean) -> Unit = {},
     onUserClick: (Long) -> Unit
 ) {
     val users = viewModel.users.collectAsLazyPagingItems()
@@ -79,7 +83,9 @@ fun MainListComposable(
     MainListScreen(
         users = users,
         onUserClick = { localId -> viewModel.onAction(MainListAction.UserClicked(localId)) },
-        onRefresh = { viewModel.onAction(MainListAction.Refresh) }
+        onRefresh = { viewModel.onAction(MainListAction.Refresh) },
+        materialYouEnabled = materialYouEnabled,
+        onMaterialYouToggled = onMaterialYouToggled,
     )
 }
 
@@ -89,6 +95,8 @@ private fun MainListScreen(
     users: LazyPagingItems<UserGenericUiModel>,
     onUserClick: (Long) -> Unit,
     onRefresh: () -> Unit,
+    materialYouEnabled: Boolean = false,
+    onMaterialYouToggled: (Boolean) -> Unit = {},
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val refreshState = users.loadState.refresh
@@ -110,6 +118,15 @@ private fun MainListScreen(
                     containerColor = MaterialTheme.colorScheme.background,
                     scrolledContainerColor = MaterialTheme.colorScheme.background,
                 ),
+                actions = {
+                    // "Material You" (dynamic colors) only exists on Android 12+
+                    if (isDynamicColorSupported) {
+                        ThemeMenu(
+                            materialYouEnabled = materialYouEnabled,
+                            onMaterialYouToggled = onMaterialYouToggled,
+                        )
+                    }
+                },
                 expandedHeight = 112.dp,
                 scrollBehavior = scrollBehavior,
             )
